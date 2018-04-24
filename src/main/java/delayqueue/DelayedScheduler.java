@@ -25,11 +25,13 @@ public class DelayedScheduler {
 	}
 
 	public void start() {
+		// Because we don't call ThreadPoolExecutor.execute(), it
+		//   is unaware of the first task waiting to launch
+		// - the other way to start a task is to add some threads
 		executor.setCorePoolSize(3);
 	}
 
 	public void stop() {
 		executor.shutdown();
-		//executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
 	}
 }
