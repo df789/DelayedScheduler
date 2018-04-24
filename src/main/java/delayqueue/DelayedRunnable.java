@@ -32,10 +32,12 @@ public class DelayedRunnable implements Delayed {
 	@Override
 	public int compareTo(Delayed o) {
 		DelayedRunnable other = (DelayedRunnable) o;
+		// Ready to go wins over not ready to go
 		boolean ready1 = this.getDelay(TimeUnit.MILLISECONDS) <= 0;
 		boolean ready2 = other.getDelay(TimeUnit.MILLISECONDS) <= 0;
 		if (ready1 != ready2)
 			return ready1 ? -1 : 1;
+		// Then by priority, then by scheduled time
 		return comparator.compare(this, other);
 	}
 
