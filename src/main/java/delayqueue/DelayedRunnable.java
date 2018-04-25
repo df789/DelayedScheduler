@@ -9,7 +9,7 @@ public class DelayedRunnable implements Delayed {
 	private static final Comparator<DelayedRunnable> comparator;
 	static {
 		Comparator<DelayedRunnable> lowFirst = Comparator
-			.comparing(d -> d.priority);
+				.comparing(d -> d.priority);
 		comparator = lowFirst.reversed().thenComparing(d -> d.time);
 	}
 
@@ -43,9 +43,12 @@ public class DelayedRunnable implements Delayed {
 
 	@Override
 	public long getDelay(TimeUnit unit) {
+		long millis;
 		if (!priority.isReady(executor))
-			return 1000;
-		return time - System.currentTimeMillis();
+			millis = 1000;
+		else
+			millis = time - System.currentTimeMillis();
+		return unit.convert(millis, TimeUnit.MILLISECONDS);
 	}
 
 	Runnable getCommand() {
